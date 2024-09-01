@@ -19,6 +19,7 @@ public class PaintersPartitionProblem
 				{
 					return false;
 				}
+				pbc = ar[i];
 			}
 		}
 		return true;
