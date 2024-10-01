@@ -72,6 +72,18 @@ class Stack1
 		}
 		System.out.println("peek is: "+top.data);
 	}
+	
+	public boolean isEmpty()
+	{
+		if(top == null)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
 public class StackUsingLinkedList {
