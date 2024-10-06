@@ -37,6 +37,7 @@ class Queue
 		else
 		{
 			int ele = ar[front++];
+			size--;
 			return ele;
 		}
 	}
