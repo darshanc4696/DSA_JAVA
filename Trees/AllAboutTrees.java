@@ -1,5 +1,7 @@
 package com.Trees;
 
+import java.util.LinkedList;
+import java.util.Queue;
 
 class Node
 {
@@ -62,6 +64,36 @@ class Trees
 		}
 	}
 	
+	static void printNodesOf(Node root, int k)
+	{
+		if(root != null)
+		{
+			if(k == 0)
+			{
+				System.out.print(root.data+" ");
+			}
+			printNodesOf(root.left, k-1);
+			printNodesOf(root.right, k-1);
+		}
+	}
+	
+	static void levelorderTraversal(Node root)
+	{
+		if(root != null)
+		{
+			Queue<Node> qt = new LinkedList<Node>();
+			qt.add(root);
+
+			while(qt.size() > 0)
+			{
+				Node removed = qt.poll();
+				System.out.print(removed.data+" ");
+				if(removed.left != null) qt.add(removed.left);
+				if(removed.right != null) qt.add(removed.right);
+			}
+		}
+	}
+	
 	
 }
 
@@ -78,7 +110,7 @@ public class AllAboutTrees {
 		root.right.right = new Node(60);
 		root.left.left.right = new Node(70);
 		
-		System.out.println(Trees.heightOf(root));
+		Trees.levelorderTraversal(root);
 		
 	}
 
