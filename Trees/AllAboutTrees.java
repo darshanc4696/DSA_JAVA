@@ -94,6 +94,60 @@ class Trees
 		}
 	}
 	
+	static void levelorderTraversalLineByLine(Node root)
+	{
+		if(root != null)
+		{
+			Queue<Node> queue = new LinkedList<>();
+			queue.add(root);
+			
+			while(! queue.isEmpty())
+			{
+				int queueLen = queue.size();
+				
+				for(int i=0; i<queueLen; i++)
+				{
+					Node curr = queue.poll();
+					System.out.print(curr.data+" ");
+					if(curr.left != null) queue.add(curr.left);
+					if(curr.right != null) queue.add(curr.right);
+				}
+				System.out.println();
+			}
+		}
+	}
+	
+	static int sizeOf(Node root)
+	{
+		if(root == null)
+		{
+			return 0;
+		}
+		else
+		{
+			int ls = sizeOf(root.left);
+			int rs = sizeOf(root.right);
+			return ls+rs+1;
+		}
+	}
+	
+	static int maxOf(Node root)
+	{
+		if(root == null)
+		{
+			return Integer.MIN_VALUE;
+		}
+		else
+		{
+			int lm = maxOf(root.left);
+			int rm = maxOf(root.right);
+			
+			return Math.max(Math.max(lm, rm), root.data);
+		}
+	}
+	
+	
+	
 	
 }
 
@@ -108,9 +162,10 @@ public class AllAboutTrees {
 		root.right = new Node(40);
 		root.right.left = new Node(50);
 		root.right.right = new Node(60);
-		root.left.left.right = new Node(70);
+		root.left.left.left = new Node(70);
+		root.left.left.right = new Node(80);
 		
-		Trees.levelorderTraversal(root);
+		Trees.levelorderTraversalLineByLine(root);
 		
 	}
 
