@@ -6,6 +6,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 
@@ -46,7 +47,7 @@ class Graph1
 		}
 	}
 	
-	public void graphTraversal(int startvertex) {
+	public void graphTraversalDFS(int startvertex) {
 		Set<Integer> visited = new LinkedHashSet<>();
 		Stack<Integer> stack = new Stack<>();
 		
@@ -67,6 +68,28 @@ class Graph1
 			System.out.print(i+" ");
 		}
 	}
+	
+	public void graphTraversalBFS(int startVertex) {
+		Set<Integer> visited = new LinkedHashSet<>();
+		Queue<Integer> queue = new LinkedList<>();
+		
+		queue.add(startVertex);
+		
+		while(! queue.isEmpty()) {
+			Integer currVertex = queue.poll();			
+			visited.add(currVertex);
+			
+			for(Integer i : list.getOrDefault(currVertex, Collections.emptyList())) {
+				if(! visited.contains(i)) {
+					queue.add(i);
+				}
+			}
+		}
+		
+		for(int i : visited) {
+			System.out.print(i+" ");
+		}
+	}
 }
 
 public class AllAboutGraph_LinkedList_And_Map {
@@ -78,11 +101,14 @@ public class AllAboutGraph_LinkedList_And_Map {
 		graph.addVertex(2);
 		graph.addVertex(3);
 		graph.addVertex(4);
+		graph.addVertex(5);
+		graph.addVertex(6);
 		
 		graph.addEdge(1, 2);
-		graph.addEdge(2, 3);
-		graph.addEdge(2, 4);
-		graph.addEdge(3, 4);
+		graph.addEdge(1, 3);
+		graph.addEdge(1, 4);
+		graph.addEdge(3, 6);
+		graph.addEdge(4, 5);
 		
 //		graph.display();
 //		
@@ -93,7 +119,7 @@ public class AllAboutGraph_LinkedList_And_Map {
 //		graph.removeVertex(2);
 
 //		graph.display();
-		graph.graphTraversal(1);
+		graph.graphTraversalBFS(1);
 	}
 
 }
