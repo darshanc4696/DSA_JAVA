@@ -2,14 +2,16 @@ package com.Graphs;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 // Class representing an edge in the graph
 class GraphEdge {
-    public int weight;
-    public int source;
-    public int destination;
+    private int weight;
+    private int source;
+    private int destination;
 
     public GraphEdge(int source, int destination, int weight) {
         this.source = source;
@@ -30,7 +32,6 @@ class GraphEdge {
     }
 }
 
-// Graph class supporting directed and undirected edges
 class Graph3 {
     private int vertices;
     public List<GraphEdge>[] adjacencyList;
@@ -115,28 +116,62 @@ class MinimumSpanningTree {
 
         return mst;
     }
+    
+    public List<GraphEdge> kruskals(Graph3 graph)
+    {
+    	List<GraphEdge>[] vertices = graph.getVertices();
+    	
+        PriorityQueue<GraphEdge> priorityQueue = new PriorityQueue<>(Comparator.comparingInt(GraphEdge::getWeight));
+    	
+    	for(List<GraphEdge> edge : vertices)
+    	{
+    		priorityQueue.addAll(edge);
+    	}
+    	
+    	List<GraphEdge> mst = new ArrayList<GraphEdge>();
+    	Set<Integer> inmst = new HashSet<>();
+    	
+    	while(! priorityQueue.isEmpty())
+    	{
+    		GraphEdge curredge = priorityQueue.poll();
+    		
+    		int source = curredge.getSource();
+    		int destination = curredge.getDestination();
+    		
+    		if(inmst.contains(source) && inmst.contains(destination)) continue;
+    		
+    		mst.add(curredge);
+    		inmst.add(curredge.getSource());
+    		inmst.add(curredge.getDestination());
+    	}
+    	
+    	return mst;
+    	
+    }
+    
+    
 }
 
-// Main class to test the MST calculation
 public class WeightedGraph {
     public static void main(String[] args) {
         MinimumSpanningTree mst = new MinimumSpanningTree();
-        Graph3 graph = new Graph3(8); // Updated to ensure all vertices are connected
+        Graph3 graph = new Graph3(7); // Updated to ensure all vertices are connected
 
         // Adding edges to the graph to make sure it's connected
-        graph.addUndirectedEdge(0, 1, 4);
-        graph.addUndirectedEdge(0, 2, 3);
-        graph.addUndirectedEdge(1, 2, 1);
-        graph.addUndirectedEdge(1, 3, 2);
-        graph.addUndirectedEdge(2, 3, 4);
-        graph.addUndirectedEdge(3, 4, 2);
-        graph.addUndirectedEdge(4, 5, 6);
-        graph.addUndirectedEdge(5, 6, 3);
-        graph.addUndirectedEdge(6, 7, 4);
-        graph.addUndirectedEdge(4, 7, 3);
+        graph.addUndirectedEdge(0, 1, 2);
+        graph.addUndirectedEdge(0, 2, 5);
+        graph.addUndirectedEdge(0, 4, 3);
+        graph.addUndirectedEdge(1, 4, 1);
+        graph.addUndirectedEdge(1, 2, 4);
+        graph.addUndirectedEdge(2, 3, 8);
+        graph.addUndirectedEdge(2, 6, 7);
+        graph.addUndirectedEdge(4, 5, 9);
+        graph.addUndirectedEdge(4, 6, 1);
+        graph.addUndirectedEdge(3, 6, 2);
+        graph.addUndirectedEdge(3, 6, 2);
 
         // Calculating MST
-        List<GraphEdge> primsMST = mst.prims(graph);
+        List<GraphEdge> primsMST = mst.kruskals(graph);
 
         // Displaying the MST
         graph.display(primsMST);
