@@ -2,8 +2,10 @@ package com.Graphs;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
@@ -152,9 +154,41 @@ class MinimumSpanningTree {
     
 }
 
+class GraphColouring
+{
+	public Map<Integer, Integer> colorGraph(Graph3 graph)
+	{
+		List<GraphEdge>[] vertices = graph.getVertices();
+		Map<Integer, Integer> colourMap = new HashMap<>();
+		
+		for(int vertex = 0; vertex < vertices.length; vertex++)
+		{
+			Set<Integer> neighbourColours = new HashSet<>();
+			for(GraphEdge edge : vertices[vertex])
+			{
+				if(colourMap.containsKey(edge.getDestination()))
+				{
+					neighbourColours.add(colourMap.get(edge.getDestination()));
+				}
+			}
+			
+			int color = 1;
+			while(neighbourColours.contains(color))
+			{
+				color++;
+			}
+			
+			colourMap.put(vertex, color);
+		}
+		
+		return colourMap;
+	}
+} 
+
 public class WeightedGraph {
     public static void main(String[] args) {
         MinimumSpanningTree mst = new MinimumSpanningTree();
+        GraphColouring gc = new GraphColouring();
         Graph3 graph = new Graph3(7); // Updated to ensure all vertices are connected
 
         // Adding edges to the graph to make sure it's connected
@@ -171,10 +205,19 @@ public class WeightedGraph {
         graph.addUndirectedEdge(3, 6, 2);
 
         // Calculating MST
-        List<GraphEdge> primsMST = mst.kruskals(graph);
+//        List<GraphEdge> primsMST = mst.kruskals(graph);
 
         // Displaying the MST
-        graph.display(primsMST);
+//        graph.display(primsMST);
+        
+        Map<Integer, Integer> colorGraph = gc.colorGraph(graph);
+        
+        for(Map.Entry<Integer, Integer> entry : colorGraph.entrySet())
+        {
+        	System.out.println(entry.getKey() +" "+ entry.getValue());
+        }
+        
+        
     }
 }
 
